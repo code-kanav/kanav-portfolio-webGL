@@ -141,7 +141,7 @@ export const SkillsSection = () => {
   const headIn = useInView(headRef, 0.3);
 
   return (
-    <section style={{position:'relative', padding:'140px 72px 120px', background:'linear-gradient(180deg, #04060c 0%, #06091a 50%, #04060c 100%)', color:'#e6edf6', overflow:'hidden'}}>
+    <section id="skills" style={{position:'relative', padding:'140px 72px 120px', background:'linear-gradient(180deg, #04060c 0%, #06091a 50%, #04060c 100%)', color:'#e6edf6', overflow:'hidden'}}>
       <style>{`
         @keyframes sk-drift {
           0% { transform: translate(0,0) rotate(0deg); }
@@ -240,7 +240,7 @@ export const ExperienceStack = () => {
   const OVERLAP = 80;
 
   return (
-    <section style={{position:'relative', background:'#04060c', color:'#e6edf6', overflow:'visible'}}>
+    <section id="experience" style={{position:'relative', background:'#04060c', color:'#e6edf6', overflow:'visible'}}>
       <div ref={headRef} style={{
         padding:'120px 72px 32px',
         opacity: headIn?1:0, transform: headIn?'translateY(0)':'translateY(24px)',

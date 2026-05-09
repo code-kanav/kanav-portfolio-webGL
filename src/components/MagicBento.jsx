@@ -152,18 +152,43 @@ const useBentoCard = (cardRef, { tilt = true, magnet = true, click = true, glowC
   }, [cardRef, tilt, magnet, click, glowColor]);
 };
 
+const BentoVideo = ({ src }) => {
+  const videoRef = React.useRef(null);
+  React.useEffect(() => {
+    const el = videoRef.current; if (!el) return;
+    const io = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) { el.play().catch(()=>{}); }
+      else { el.pause(); }
+    }, { threshold: 0.3 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return (
+    <div style={{position:'relative', zIndex:2, borderRadius:10, overflow:'hidden', marginTop:20, marginBottom:16, border:'1px solid rgba(255,255,255,0.08)'}}>
+      <video ref={videoRef} src={src} loop muted playsInline
+        style={{width:'100%', display:'block', borderRadius:10, maxHeight:340, objectFit:'cover'}}/>
+    </div>
+  );
+};
+
 const BentoCard = ({ project, span = '', className = '' }) => {
   const ref = React.useRef(null);
   useBentoCard(ref);
   const p = project;
   return (
-    <div ref={ref} className={`magic-bento-card ${span} ${className}`}>
+    <div ref={ref} className={`magic-bento-card ${span} ${className}`}
+      onClick={()=>{ if(p.href) window.open(p.href,'_blank','noopener'); }}
+      style={{cursor: p.href ? 'pointer' : 'default'}}>
       <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:18, position:'relative', zIndex:2}}>
         <span style={{fontFamily:'"JetBrains Mono", monospace', fontSize:11, color:'rgba(230,237,246,0.45)', letterSpacing:2}}>{p.n}</span>
         <span style={{fontFamily:'"JetBrains Mono", monospace', fontSize:11, color:p.accent, letterSpacing:1.5}}>{p.tag}</span>
       </div>
       <h3 style={{fontSize:30, fontWeight:500, margin:0, marginBottom:6, letterSpacing:-0.6, color:'#fff', position:'relative', zIndex:2}}>{p.name}</h3>
-      <div style={{fontFamily:'"JetBrains Mono", monospace', fontSize:11, marginBottom:16, color:'rgba(230,237,246,0.55)', position:'relative', zIndex:2}}>→ {p.url}</div>
+      {p.href
+        ? <a href={p.href} target="_blank" rel="noopener" style={{display:'block', fontFamily:'"JetBrains Mono", monospace', fontSize:11, marginBottom:16, color:'rgba(230,237,246,0.45)', position:'relative', zIndex:2, textDecoration:'none'}}
+            onMouseEnter={e=>e.currentTarget.style.color='rgba(230,237,246,0.7)'} onMouseLeave={e=>e.currentTarget.style.color='rgba(230,237,246,0.45)'}>→ {p.url} ↗</a>
+        : <div style={{fontFamily:'"JetBrains Mono", monospace', fontSize:11, marginBottom:16, color:'rgba(230,237,246,0.45)', position:'relative', zIndex:2}}>→ {p.url}</div>
+      }
       <p style={{fontSize:14, lineHeight:1.6, margin:0, marginBottom:14, color:'rgba(230,237,246,0.85)', position:'relative', zIndex:2}}>{p.desc}</p>
       <ul style={{margin:0, padding:0, listStyle:'none', marginBottom:18, position:'relative', zIndex:2}}>
         {p.highlights.map((h,j) => (
@@ -178,6 +203,7 @@ const BentoCard = ({ project, span = '', className = '' }) => {
           <span key={s} style={{fontSize:10.5, padding:'3px 9px', borderRadius:999, background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.10)', fontFamily:'"JetBrains Mono", monospace', color:'rgba(230,237,246,0.85)'}}>{s}</span>
         ))}
       </div>
+      {p.video && <BentoVideo src={p.video}/>}
     </div>
   );
 };
@@ -185,13 +211,17 @@ const BentoCard = ({ project, span = '', className = '' }) => {
 export const MagicBentoProjects = ({ projects }) => {
   const gridRef = React.useRef(null);
   useGlobalSpotlight(gridRef);
-  // 4 projects in an asymmetric bento: big hero card top-left, then three stacked
+  // Layout (4-col grid):
+  // Row 1: [SAGE 2×2] [Health Path 1×1] [ARISE 1×1]
+  // Row 2: [SAGE cont] [HR Platform 2×1]
+  // Row 3: [Clinical Research Agent 4×1]
   return (
     <div ref={gridRef} className="bento-section magic-bento-grid">
       <BentoCard project={projects[0]} span="bento-hero"/>
-      <BentoCard project={projects[1]} span="bento-tall"/>
-      <BentoCard project={projects[2]} span="bento-wide"/>
+      <BentoCard project={projects[1]}/>
+      <BentoCard project={projects[2]}/>
       <BentoCard project={projects[3]} span="bento-wide"/>
+      <BentoCard project={projects[4]} span="bento-full"/>
     </div>
   );
 };

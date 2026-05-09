@@ -1,14 +1,34 @@
 import React from 'react';
 
+const TYPED_TEXT = 'AI researcher & senior software engineer at Stanford. 5+ years building scalable full-stack systems and clinical-grade LLM applications.';
+
+const useTyping = (text, speed = 28) => {
+  const [displayed, setDisplayed] = React.useState('');
+  const [done, setDone] = React.useState(false);
+  React.useEffect(() => {
+    let i = 0;
+    setDisplayed('');
+    setDone(false);
+    const tick = setInterval(() => {
+      i++;
+      setDisplayed(text.slice(0, i));
+      if (i >= text.length) { clearInterval(tick); setDone(true); }
+    }, speed);
+    return () => clearInterval(tick);
+  }, [text, speed]);
+  return { displayed, done };
+};
+
 export const HeroFused = () => {
   const heroRef = React.useRef(null);
   const orbRef = React.useRef(null);
   const [mouse, setMouse] = React.useState({ x: 0.5, y: 0.5 });
+  const { displayed, done } = useTyping(TYPED_TEXT);
 
   const [windows, setWindows] = React.useState([
-    { id:'about', x: 640, y: 110, w: 440, h: 300, z: 3, title:'about.md' },
-    { id:'stack', x: 900, y: 310, w: 430, h: 340, z: 2, title:'stack.json' },
-    { id:'term',  x: 540, y: 560, w: 580, h: 220, z: 1, title:'~/kanav — zsh' },
+    { id:'about', x: 710, y: 110, w: 440, h: 300, z: 3, title:'about.md' },
+    { id:'stack', x: 970, y: 310, w: 430, h: 340, z: 2, title:'stack.json' },
+    { id:'term',  x: 610, y: 560, w: 580, h: 220, z: 1, title:'~/kanav — zsh' },
   ]);
 
   React.useEffect(() => {
@@ -42,6 +62,8 @@ export const HeroFused = () => {
     document.addEventListener('mouseup', up);
   };
 
+  const [resumeOpen, setResumeOpen] = React.useState(false);
+
   const magnetic = (e) => {
     const t = e.currentTarget;
     const r = t.getBoundingClientRect();
@@ -52,6 +74,20 @@ export const HeroFused = () => {
   const resetMag = (e) => { e.currentTarget.style.transform = ''; };
 
   return (
+    <>
+    {resumeOpen && (
+      <div onClick={()=>setResumeOpen(false)} style={{position:'fixed',inset:0,zIndex:9999,background:'rgba(2,4,12,0.85)',backdropFilter:'blur(12px)',display:'flex',alignItems:'center',justifyContent:'center',gap:12}}>
+        <div onClick={e=>e.stopPropagation()} style={{width:'min(860px,88vw)',height:'88vh',borderRadius:16,overflow:'hidden',border:'1px solid rgba(255,255,255,0.1)',boxShadow:'0 40px 100px rgba(0,0,0,0.7)',flexShrink:0}}>
+          <iframe src="/Kanav_Resume.pdf" style={{width:'100%',height:'100%',border:'none'}} title="Kanav Chopra Resume"/>
+        </div>
+        <div onClick={e=>e.stopPropagation()} style={{display:'flex',flexDirection:'column',gap:10,flexShrink:0,alignSelf:'flex-start',marginTop:'3rem'}}>
+          <button onClick={()=>setResumeOpen(false)} style={{background:'rgba(255,255,255,0.05)',border:'1px solid rgba(255,255,255,0.12)',color:'rgba(230,237,246,0.7)',borderRadius:10,width:44,height:44,cursor:'pointer',fontSize:18,display:'flex',alignItems:'center',justifyContent:'center'}}>✕</button>
+          <a href="/Kanav_Resume.pdf" download style={{background:'rgba(34,211,238,0.12)',border:'1px solid rgba(34,211,238,0.3)',color:'#22d3ee',borderRadius:10,width:44,height:44,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',textDecoration:'none'}}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          </a>
+        </div>
+      </div>
+    )}
     <div ref={heroRef} style={{
       position:'relative', width:'100%', minHeight: 980, overflow:'hidden',
       background:'radial-gradient(ellipse at 70% 20%, #0f1a2e 0%, #070812 55%, #04050a 100%)',
@@ -68,12 +104,14 @@ export const HeroFused = () => {
 
       {/* nav */}
       <nav style={{position:'absolute', top:28, left:0, right:0, display:'flex', justifyContent:'space-between', alignItems:'center', padding:'0 56px', zIndex:50}}>
-        <div style={{fontSize:14, fontWeight:600, letterSpacing:1.5, fontFamily:'"JetBrains Mono", monospace'}}>
-          KC<span style={{color:'#22d3ee'}}>.</span>
+        <div>
+          <img src="/logo-dark.png" alt="Kanav Chopra" style={{height:36, display:'block'}} />
         </div>
         <div style={{display:'flex', gap:36, fontSize:13, letterSpacing:0.5}}>
-          {['Work','Research','Stack','Contact'].map(l => (
-            <a key={l} href="#" style={{color:'rgba(230,237,246,0.65)', textDecoration:'none'}}>{l}</a>
+          {[['Skills','#skills'],['Experience','#experience'],['Projects','#projects'],['Publications','#publications'],['Contact','#contact']].map(([l,h]) => (
+            <a key={l} href={h} style={{color:'rgba(230,237,246,0.65)', textDecoration:'none', transition:'color .2s'}}
+              onMouseEnter={e=>e.currentTarget.style.color='#22d3ee'}
+              onMouseLeave={e=>e.currentTarget.style.color='rgba(230,237,246,0.65)'}>{l}</a>
           ))}
         </div>
         <div style={{fontSize:12, fontFamily:'"JetBrains Mono", monospace', color:'rgba(230,237,246,0.5)'}}>
@@ -81,6 +119,9 @@ export const HeroFused = () => {
           available · q2 ’26
         </div>
       </nav>
+
+      {/* constrained content wrapper */}
+      <div style={{position:'relative', maxWidth:1400, margin:'0 auto', minHeight:980}}>
 
       {/* LEFT — main identity copy */}
       <div style={{position:'relative', zIndex:4, padding:'140px 0 0 72px', maxWidth:680}}>
@@ -92,11 +133,19 @@ export const HeroFused = () => {
           Kanav<br/>
           <span style={{fontStyle:'italic', fontWeight:300, background:'linear-gradient(90deg,#22d3ee,#a5f3fc)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent'}}>Chopra</span>
         </h1>
-        <p style={{fontSize:18, lineHeight:1.55, color:'rgba(230,237,246,0.72)', maxWidth:500, margin:0, marginBottom:36}}>
-          AI researcher & senior software engineer at Stanford. 5+ years building scalable full-stack systems and clinical-grade LLM applications.
+        <p style={{fontSize:18, lineHeight:1.55, maxWidth:500, margin:0, marginBottom:36, position:'relative'}}>
+          <span style={{visibility:'hidden', userSelect:'none'}} aria-hidden="true">{TYPED_TEXT}</span>
+          <span style={{position:'absolute', top:0, left:0, color:'rgba(230,237,246,0.72)'}}>
+            {displayed}<span style={{
+              display: done ? 'none' : 'inline-block',
+              width: 2, height: '1.1em', background: '#22d3ee',
+              marginLeft: 2, verticalAlign: 'text-bottom',
+              animation: 'blink 1s step-end infinite',
+            }}/>
+          </span>
         </p>
         <div style={{display:'flex', gap:14}}>
-          <button onMouseMove={magnetic} onMouseLeave={resetMag} style={{
+          <button onClick={()=>document.querySelector('#projects').scrollIntoView({behavior:'smooth'})} onMouseMove={magnetic} onMouseLeave={resetMag} style={{
             background:'rgba(34,211,238,0.95)', color:'#04131a', border:'none', padding:'16px 28px',
             borderRadius:999, fontSize:14, fontWeight:600, letterSpacing:0.3, cursor:'pointer',
             boxShadow:'0 0 40px rgba(34,211,238,0.35)', transition:'transform 0.3s cubic-bezier(.2,.7,.3,1)',
@@ -104,7 +153,7 @@ export const HeroFused = () => {
             View selected work
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 7h8M8 3l4 4-4 4"/></svg>
           </button>
-          <button onMouseMove={magnetic} onMouseLeave={resetMag} style={{
+          <button onClick={()=>setResumeOpen(true)} onMouseMove={magnetic} onMouseLeave={resetMag} style={{
             background:'rgba(255,255,255,0.04)', backdropFilter:'blur(20px)', color:'#e6edf6',
             border:'1px solid rgba(255,255,255,0.12)', padding:'16px 28px',
             borderRadius:999, fontSize:14, fontWeight:500, cursor:'pointer',
@@ -114,7 +163,7 @@ export const HeroFused = () => {
         </div>
 
         <div style={{display:'flex', gap:48, marginTop:56, fontFamily:'"JetBrains Mono", monospace'}}>
-          {[['05+','years shipping'],['04','peer-reviewed papers']].map(([k,v]) => (
+          {[['05+','years shipping'],['04','publications'],['∞','coffee']].map(([k,v]) => (
             <div key={k}>
               <div style={{fontSize:28, fontWeight:500, color:'#e6edf6', letterSpacing:-1}}>{k}</div>
               <div style={{fontSize:11, color:'rgba(230,237,246,0.45)', letterSpacing:1.5, marginTop:4, textTransform:'uppercase'}}>{v}</div>
@@ -124,11 +173,11 @@ export const HeroFused = () => {
       </div>
 
       {/* ghosted giant backdrop name */}
-      <div style={{position:'absolute', left:0, right:0, bottom:40, textAlign:'center', zIndex:1, pointerEvents:'none'}}>
-        <div style={{fontSize:260, fontWeight:600, letterSpacing:-10, lineHeight:0.9,
+      <div style={{position:'absolute', left:0, right:0, bottom:30, textAlign:'center', zIndex:1, pointerEvents:'none'}}>
+        <div style={{fontSize:120, fontWeight:600, letterSpacing:-3, lineHeight:0.9,
           background:'linear-gradient(180deg, rgba(34,211,238,0.1), rgba(34,211,238,0.02))',
-          WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent'}}>kanav</div>
-        <div style={{fontSize:12, fontFamily:'"JetBrains Mono", monospace', color:'rgba(230,237,246,0.35)', letterSpacing:4, marginTop:-30}}>
+          WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent'}}>Creative. Curious. Capable.</div>
+        <div style={{fontSize:12, fontFamily:'"JetBrains Mono", monospace', color:'rgba(230,237,246,0.35)', letterSpacing:4, marginTop:-20}}>
           AI · FULL-STACK · STANFORD · SINCE 2019
         </div>
       </div>
@@ -155,7 +204,7 @@ export const HeroFused = () => {
   "frontend": ["React", "Next.js", "TS"],
   "backend":  ["Python", "FastAPI", "Node"],
   "database": "PostgreSQL",
-  "ai":       ["Claude","Gemini","Azure"],
+  "ai":       ["LLM", "RAG", "Evals", "Embeddings"],
   "realtime": ["SSE", "WebSockets"],
   "infra":    ["GCP", "AWS", "Docker"]
 }`}</pre>
@@ -174,9 +223,11 @@ export const HeroFused = () => {
 
       {/* scroll hint */}
       <div style={{position:'absolute', bottom:24, left:72, fontSize:11, fontFamily:'"JetBrains Mono", monospace', color:'rgba(230,237,246,0.45)', letterSpacing:2, zIndex:4}}>
-        ↓ SCROLL · drag the windows
+        ↓ SCROLL
       </div>
+      </div>{/* end constrained wrapper */}
     </div>
+    </>
   );
 };
 

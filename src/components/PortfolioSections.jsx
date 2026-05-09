@@ -58,25 +58,33 @@ const ExperienceSection = () => {
 // ─────── PROJECTS ───────
 const ProjectsSection = () => {
   const projects = [
-  { n: '01', name: 'SAGE', tag: 'clinical decision support', url: 'sage.arise-ai.org',
-    desc: 'Secure, full-stack medical consultation + referral system with real-time multi-model AI orchestration.',
-    highlights: ['Multi-model (Claude + Gemini + Azure) over FastAPI with dynamic switching.', 'SSE pipeline + vector embeddings for clinical context matching.', 'Postgres session management, strict CORS, Pydantic validators.'],
-    stack: ['FastAPI', 'React', 'TypeScript', 'PostgreSQL', 'Claude', 'Gemini'], accent: '#22d3ee' },
-  { n: '02', name: 'Stanford Health Path', tag: 'patient routing', url: 'stanford-healthpath.vercel.app',
+  { n: '01', name: 'SAGE', tag: 'clinical decision support', url: 'sage.arise-ai.org', href: 'https://sage.arise-ai.org/',
+    desc: 'Secure, full-stack medical consultation + referral system leveraging real-time, multi-model AI orchestration for immediate, contextual clinical guidance.',
+    highlights: [
+      'Architected multi-model AI orchestration (FastAPI) — Claude, Gemini, Azure OpenAI with dynamic low-latency switching to optimize clinical accuracy and cost.',
+      'Engineered SSE pipeline with React/TypeScript + vector embeddings for high-accuracy clinical context matching, significantly reducing LLM hallucination.',
+      'Integrated PostgreSQL session management with strict CORS and Pydantic validators for secure handling of sensitive clinical data.',
+    ],
+    stack: ['FastAPI', 'React', 'TypeScript', 'PostgreSQL', 'Claude', 'Gemini', 'Azure OpenAI', 'MUI'], accent: '#22d3ee', video: '/sage_demo.mov' },
+  { n: '02', name: 'Clinical Research Agent', tag: 'multi-agent system', url: 'clinical-research-agent',
+    desc: '5-agent LangGraph pipeline with ReAct + self-reflection across PubMed, Semantic Scholar, and arXiv.',
+    highlights: ['Swappable Claude/Gemini-on-Vertex via ADC.', 'Eval harness: citation accuracy, faithfulness, latency, token cost.'],
+    stack: ['Python', 'LangGraph', 'Vertex AI', 'Claude', 'Gemini'], accent: '#8b5cf6', href: 'https://github.com/code-kanav/clinical-research-agent' },
+  { n: '03', name: 'Stanford Health Path', tag: 'patient routing', url: 'stanford-healthpath.vercel.app', href: 'https://github.com/code-kanav/healthpath-backend',
     desc: '"Google Maps for patients" — suggests healthcare routes using an LLM to plan care journeys.',
     highlights: ['LLM-planned routing across provider networks.', 'Patient-first UI focused on clarity and next-step confidence.'],
     stack: ['Next.js', 'TypeScript', 'LLM'], accent: '#a5f3fc' },
-  { n: '03', name: 'ARISE AI Research Network', tag: 'research site', url: 'arise-ai.org',
+  { n: '04', name: 'ARISE AI Research Network', tag: 'research site', url: 'arise-ai.org', href: 'https://www.arise-ai.org/',
     desc: 'Public home for the ARISE clinical-AI research network — Next.js + headless WordPress.',
     highlights: ['Headless CMS architecture, fast editorial loop.', 'Server-rendered, content-first pages for SEO + accessibility.'],
     stack: ['Next.js', 'Headless WP', 'Vercel'], accent: '#67e8f9' },
-  { n: '04', name: 'HR Management Platform', tag: 'enterprise modernization', url: 'vensure · internal',
+  { n: '05', name: 'HR Management Platform', tag: 'enterprise modernization', url: 'vensure · internal',
     desc: 'Legacy-to-microservices transition for an HR platform — 40% less debt, 50% efficiency gain.',
     highlights: ['Led architectural transition + tech selection.', 'Refactored large legacy codebases; sharply reduced crashes.', 'Mentored juniors via code review.'],
     stack: ['React', 'TypeScript', 'Microservices'], accent: '#0891b2' }];
 
   return (
-    <section style={{ padding: '120px 72px', background: '#05080f', color: "rgb(255, 255, 255)" }}>
+    <section id="projects" style={{ padding: '120px 72px', background: '#05080f', color: "rgb(255, 255, 255)" }}>
       <style>{`
         .magic-bento-grid {
           display: grid;
@@ -119,11 +127,11 @@ const ProjectsSection = () => {
         }
         @media (min-width: 901px) {
           .magic-bento-card.bento-hero { grid-column: span 2; grid-row: span 2; }
-          .magic-bento-card.bento-tall { grid-column: span 2; grid-row: span 1; }
           .magic-bento-card.bento-wide { grid-column: span 2; }
+          .magic-bento-card.bento-full { grid-column: span 4; }
         }
       `}</style>
-      <SectionHeader index="03" kicker="SELECTED WORK" title="Projects I'm proud of." right="04 shipped" />
+      <SectionHeader index="03" kicker="SELECTED WORK" title="Projects I'm proud of." right="05 shipped" />
       <MagicBentoProjects projects={projects}/>
     </section>);
 
@@ -138,7 +146,23 @@ const PublicationsSection = () => {
   { yr: '2025', title: 'Reducing Hallucination in Clinical LLM Systems', venue: 'AMIA 2025 — peer reviewed' }];
 
   return (
-    <section style={{ padding: '120px 72px', background: '#04060c', color: '#e6edf6' }}>
+    <section id="publications" style={{ padding: '120px 72px', background: '#04060c', color: '#e6edf6' }}>
+      <style>{`
+        @keyframes border-spin { to { --angle: 360deg; } }
+        @property --angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+        .scholar-border {
+          background: conic-gradient(from var(--angle), transparent 70%, #22d3ee 85%, #a5f3fc 90%, #22d3ee 95%, transparent 100%);
+          animation: border-spin 3s linear infinite;
+          padding: 1.5px;
+          border-radius: 15px;
+        }
+        .scholar-inner {
+          background: rgba(34,211,238,0.04);
+          border-radius: 13px;
+          padding: 28px;
+          height: 100%;
+        }
+      `}</style>
       <SectionHeader index="04" kicker="PUBLICATIONS" title="Research + writing." right="04 peer-reviewed" />
       <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 80, alignItems: 'start' }}>
         <div>
@@ -156,15 +180,17 @@ const PublicationsSection = () => {
             </a>
           )}
         </div>
-        <div style={{ padding: 28, borderRadius: 14, background: 'rgba(34,211,238,0.04)', border: '1px solid rgba(34,211,238,0.15)' }}>
-          <div style={{ fontFamily: '"JetBrains Mono", monospace', fontSize: 10, letterSpacing: 2, color: '#22d3ee', marginBottom: 14 }}>SCHOLAR</div>
-          <p style={{ fontSize: 15, lineHeight: 1.6, color: 'rgba(230,237,246,0.8)', margin: 0, marginBottom: 18 }}>
-            Four peer-reviewed publications on LLM evaluation and AI-assisted clinical decision support — AMIA 2025 and PSB 2026.
-          </p>
-          <a href="https://scholar.google.com/citations?user=iJg_oFkAAAAJ" target="_blank" rel="noopener"
-          style={{ display: 'inline-block', padding: '10px 18px', background: '#22d3ee', color: '#04131a', borderRadius: 8, fontSize: 13, fontWeight: 600, textDecoration: 'none', fontFamily: 'inherit' }}>
-            Open Google Scholar ↗
-          </a>
+        <div className="scholar-border">
+          <div className="scholar-inner">
+            <div style={{ fontFamily: '"JetBrains Mono", monospace', fontSize: 10, letterSpacing: 2, color: '#22d3ee', marginBottom: 14 }}>SCHOLAR</div>
+            <p style={{ fontSize: 15, lineHeight: 1.6, color: 'rgba(230,237,246,0.8)', margin: 0, marginBottom: 18 }}>
+              Four peer-reviewed publications on LLM evaluation and AI-assisted clinical decision support — AMIA 2025 and PSB 2026.
+            </p>
+            <a href="https://scholar.google.com/citations?user=iJg_oFkAAAAJ" target="_blank" rel="noopener"
+            style={{ display: 'inline-block', padding: '10px 18px', background: '#22d3ee', color: '#04131a', borderRadius: 8, fontSize: 13, fontWeight: 600, textDecoration: 'none', fontFamily: 'inherit' }}>
+              Open Google Scholar ↗
+            </a>
+          </div>
         </div>
       </div>
     </section>);
@@ -243,6 +269,7 @@ style={{
 
 const ContactSection = () => {
   const heroRef = React.useRef(null);
+  const parallaxRef = React.useRef(null);
   const [active, setActive] = React.useState(null);
   const [pressed, setPressed] = React.useState({});
   const [mouse, setMouse] = React.useState({ x: 0.5, y: 0.5 });
@@ -255,6 +282,20 @@ const ContactSection = () => {
     };
     el.addEventListener('mousemove', onMove);
     return () => el.removeEventListener('mousemove', onMove);
+  }, []);
+
+  React.useEffect(() => {
+    const el = heroRef.current;
+    const layer = parallaxRef.current;
+    if (!el || !layer) return;
+    const onScroll = () => {
+      const r = el.getBoundingClientRect();
+      const progress = -r.top / (r.height || 1);
+      const offset = progress * 80;
+      layer.style.transform = `translateY(${offset}px)`;
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   const playTone = (freq) => {
@@ -274,6 +315,8 @@ const ContactSection = () => {
     setPressed((p) => ({ ...p, [k.id]: true }));
     playTone(k.freq);
     setTimeout(() => setPressed((p) => ({ ...p, [k.id]: false })), 180);
+    if (k.action === 'scroll-top') { window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+    if (k.action === 'download') { const a = document.createElement('a'); a.href = '/Kanav_Resume.pdf'; a.download = 'Kanav_Chopra_Resume.pdf'; a.click(); return; }
     if (k.href) window.open(k.href, '_blank', 'noopener');
   };
 
@@ -293,36 +336,36 @@ const ContactSection = () => {
   const rows = [
   [
   { id: 'email', label: 'email', sub: 'kanavchopra8@gmail.com', icon: I.mail, freq: 330, href: 'mailto:kanavchopra8@gmail.com' },
-  { id: 'linkedin', label: 'linkedin', sub: '/in/kanavchopra', icon: I.linkedin, freq: 392, href: 'https://www.linkedin.com/in/kanavchopra' },
+  { id: 'linkedin', label: 'linkedin', sub: '/in/kanav-chopra', icon: I.linkedin, freq: 392, href: 'https://www.linkedin.com/in/kanav-chopra-707a4212a/' },
   { id: 'github', label: 'github', sub: '/kanavchopra', icon: I.github, freq: 440, href: 'https://github.com/' }],
 
   [
-  { id: 'twitter', label: 'twitter', sub: '@kanavchopra', icon: I.twitter, freq: 293, href: 'https://twitter.com/' },
-  { id: 'cv', label: 'cv', sub: 'resume.pdf', icon: I.cv, freq: 261, href: '#' },
+  { id: 'twitter', label: 'twitter', sub: '@KanavChopra007', icon: I.twitter, freq: 293, href: 'https://twitter.com/KanavChopra007' },
+  { id: 'cv', label: 'cv', sub: 'download resume', icon: I.cv, freq: 261, action: 'download' },
   { id: 'scholar', label: 'scholar', sub: 'Google Scholar', icon: I.scholar, freq: 349, href: 'https://scholar.google.com/citations?user=iJg_oFkAAAAJ' }],
 
   [
-  { id: 'web', label: 'website', sub: 'kanavchopra.com', icon: I.web, freq: 233, href: 'https://www.kanavchopra.com' },
+  { id: 'web', label: 'website', sub: 'scroll to top', icon: I.web, freq: 233, action: 'scroll-top' },
   { id: 'phone', label: 'phone', sub: '+1 (314) 709 4679', icon: I.phone, freq: 220, href: 'tel:+13147094679' },
-  { id: 'meet', label: 'meet', sub: 'schedule a call', icon: I.meet, freq: 196, href: '#' }]];
+  { id: 'meet', label: 'meet', sub: 'schedule a call', icon: I.meet, freq: 196, href: 'https://calendar.google.com/calendar/render?action=TEMPLATE&add=kanavchopra8%40gmail.com&text=Chat+with+Kanav+Chopra' }]];
 
 
   const flat = rows.flat();
 
   return (
-    <section ref={heroRef} style={{
+    <section id="contact" ref={heroRef} style={{
       position: 'relative', minHeight: 820, overflow: 'hidden',
       background: 'radial-gradient(ellipse at 50% 30%, #0e1a2e 0%, #060912 60%, #02040a 100%)',
       color: '#e6edf6', fontFamily: "'Inter Tight', system-ui, sans-serif"
     }}>
       <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(34,211,238,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(34,211,238,0.05) 1px,transparent 1px)', backgroundSize: '48px 48px', maskImage: 'radial-gradient(ellipse at 50% 60%, #000 20%, transparent 80%)' }} />
-      <div style={{ position: 'absolute', top: '20%', left: '50%', transform: 'translateX(-50%)', width: 900, height: 500, background: 'radial-gradient(ellipse, rgba(34,211,238,0.18), transparent 60%)', filter: 'blur(80px)' }} />
+      <div ref={parallaxRef} style={{ position: 'absolute', top: '20%', left: '50%', transform: 'translateX(-50%)', width: 900, height: 500, background: 'radial-gradient(ellipse, rgba(34,211,238,0.18), transparent 60%)', filter: 'blur(80px)', willChange: 'transform' }} />
       <div style={{ position: 'absolute', left: mouse.x * 100 + '%', top: mouse.y * 100 + '%', width: 600, height: 600, transform: 'translate(-50%,-50%)', background: 'radial-gradient(circle, rgba(34,211,238,0.1), transparent 60%)', pointerEvents: 'none', mixBlendMode: 'screen' }} />
 
       {/* top header */}
       <div style={{ position: 'absolute', top: 32, left: 0, right: 0, display: 'flex', justifyContent: 'space-between', padding: '0 56px', zIndex: 5, alignItems: 'center' }}>
         <div style={{ fontSize: 13, fontFamily: '"JetBrains Mono", monospace', color: 'rgba(230,237,246,0.55)', letterSpacing: 1.5 }}>
-          KANAV.CHOPRA<span style={{ color: '#22d3ee' }}>/</span>CONTACT
+          KANAVCHOPRA.COM<span style={{ color: '#22d3ee' }}>/</span>CONTACT
         </div>
         <div style={{ fontSize: 12, fontFamily: '"JetBrains Mono", monospace', color: 'rgba(230,237,246,0.4)' }}>
           PRESS · ANY · KEY ·
@@ -383,24 +426,43 @@ const ContactSection = () => {
 };
 
 // ─────── FOOTER ───────
+const scrollTo = (id) => { if (id === 'top') { window.scrollTo({ top: 0, behavior: 'smooth' }); } else { document.querySelector(id)?.scrollIntoView({ behavior: 'smooth' }); } };
+
+const FooterLink = ({ href, onClick, children }) => {
+  const base = { fontSize: 13, padding: '3px 0', color: 'rgba(230,237,246,0.6)', textDecoration: 'none', display: 'block', cursor: 'pointer', transition: 'color .15s' };
+  const hover = (e) => (e.currentTarget.style.color = '#22d3ee');
+  const leave = (e) => (e.currentTarget.style.color = 'rgba(230,237,246,0.6)');
+  if (onClick) return <div style={base} onClick={onClick} onMouseEnter={hover} onMouseLeave={leave}>{children}</div>;
+  return <a href={href} target="_blank" rel="noopener" style={base} onMouseEnter={hover} onMouseLeave={leave}>{children}</a>;
+};
+
 const FooterSection = () =>
 <footer style={{ padding: '64px 72px 40px', background: '#02030a', color: 'rgba(230,237,246,0.6)', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 56 }}>
-      <div>
+      <div style={{ cursor: 'pointer' }} onClick={() => scrollTo('top')}>
         <div style={{ fontSize: 72, fontWeight: 500, letterSpacing: -3, color: 'rgba(230,237,246,0.9)', lineHeight: 0.9, marginBottom: 12 }}>Kanav <span style={{ fontStyle: 'italic', fontWeight: 300 }}>Chopra</span>.</div>
         <div style={{ fontSize: 13, fontFamily: '"JetBrains Mono", monospace', letterSpacing: 1.5, color: 'rgba(230,237,246,0.4)' }}>AI RESEARCHER · FULL-STACK · STANFORD</div>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, auto)', gap: 48, textAlign: 'right' }}>
-        {[
-      ['SOCIAL', ['GitHub ↗', 'LinkedIn ↗', 'Scholar ↗']],
-      ['LINKS', ['Work', 'Research', 'Résumé']],
-      ['EDUCATION', ['MS · Webster', 'BS · UPES']]].
-      map(([k, items]) =>
-      <div key={k}>
-            <div style={{ fontSize: 10, letterSpacing: 2, color: 'rgba(230,237,246,0.35)', fontFamily: '"JetBrains Mono", monospace', marginBottom: 14 }}>{k}</div>
-            {items.map((i) => <div key={i} style={{ fontSize: 13, padding: '3px 0' }}>{i}</div>)}
-          </div>
-      )}
+        <div>
+          <div style={{ fontSize: 10, letterSpacing: 2, color: 'rgba(230,237,246,0.35)', fontFamily: '"JetBrains Mono", monospace', marginBottom: 14 }}>SOCIAL</div>
+          <FooterLink href="https://www.linkedin.com/in/kanav-chopra-707a4212a/">LinkedIn ↗</FooterLink>
+          <FooterLink href="https://github.com/">GitHub ↗</FooterLink>
+          <FooterLink href="https://scholar.google.com/citations?user=iJg_oFkAAAAJ">Scholar ↗</FooterLink>
+        </div>
+        <div>
+          <div style={{ fontSize: 10, letterSpacing: 2, color: 'rgba(230,237,246,0.35)', fontFamily: '"JetBrains Mono", monospace', marginBottom: 14 }}>SECTIONS</div>
+          <FooterLink onClick={() => scrollTo('#skills')}>Skills</FooterLink>
+          <FooterLink onClick={() => scrollTo('#experience')}>Experience</FooterLink>
+          <FooterLink onClick={() => scrollTo('#projects')}>Projects</FooterLink>
+          <FooterLink onClick={() => scrollTo('#publications')}>Publications</FooterLink>
+          <FooterLink onClick={() => scrollTo('#contact')}>Contact</FooterLink>
+        </div>
+        <div>
+          <div style={{ fontSize: 10, letterSpacing: 2, color: 'rgba(230,237,246,0.35)', fontFamily: '"JetBrains Mono", monospace', marginBottom: 14 }}>EDUCATION</div>
+          <div style={{ fontSize: 13, padding: '3px 0' }}>MS · Webster</div>
+          <div style={{ fontSize: 13, padding: '3px 0' }}>BS · UPES</div>
+        </div>
       </div>
     </div>
     <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, fontFamily: '"JetBrains Mono", monospace', color: 'rgba(230,237,246,0.35)', letterSpacing: 1.5, paddingTop: 28, borderTop: '1px solid rgba(255,255,255,0.05)' }}>
