@@ -1,0 +1,10 @@
+html, body { margin: 0; padding: 0; background: #04060c; }
+* { box-sizing: border-box; }
+
+@keyframes blink { 0%, 49% { opacity: 1 } 50%, 100% { opacity: 0 } }
+.blink { display: inline-block; width: 8px; height: 14px; animation: blink 1s step-end infinite; }
+
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #04060c; }
+::-webkit-scrollbar-thumb { background: rgba(34, 211, 238, 0.2); border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(34, 211, 238, 0.4); }
