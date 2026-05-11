@@ -2,14 +2,14 @@ import React from 'react';
 import { MagicBentoProjects } from './MagicBento.jsx';
 
 const SectionHeader = ({ index, kicker, title, right }) =>
-<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 56, paddingBottom: 24, borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+<div className="sec-header-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 56, paddingBottom: 24, borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
     <div>
       <div style={{ fontFamily: '"JetBrains Mono", monospace', fontSize: 11, letterSpacing: 3, color: '#22d3ee', marginBottom: 14 }}>
         {index} / {kicker}
       </div>
-      <h2 style={{ fontSize: 56, fontWeight: 500, letterSpacing: -2, margin: 0, lineHeight: 1 }}>{title}</h2>
+      <h2 className="sec-h2" style={{ fontSize: 56, fontWeight: 500, letterSpacing: -2, margin: 0, lineHeight: 1 }}>{title}</h2>
     </div>
-    {right && <div style={{ fontSize: 13, color: 'rgba(230,237,246,0.5)', fontFamily: '"JetBrains Mono", monospace' }}>{right}</div>}
+    {right && <div className="sec-header-right" style={{ fontSize: 13, color: 'rgba(230,237,246,0.5)', fontFamily: '"JetBrains Mono", monospace' }}>{right}</div>}
   </div>;
 
 
@@ -84,8 +84,12 @@ const ProjectsSection = () => {
     stack: ['React', 'TypeScript', 'Microservices'], accent: '#0891b2' }];
 
   return (
-    <section id="projects" style={{ padding: '120px 72px', background: '#05080f', color: "rgb(255, 255, 255)" }}>
+    <section id="projects" className="projects-section" style={{ background: '#05080f', color: "rgb(255, 255, 255)" }}>
       <style>{`
+        .projects-section { padding: 120px 72px; }
+        @media (max-width: 1024px) { .projects-section { padding: 80px 40px !important; } }
+        @media (max-width: 768px)  { .projects-section { padding: 60px 20px !important; } }
+
         .magic-bento-grid {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
@@ -93,8 +97,11 @@ const ProjectsSection = () => {
           position: relative;
           user-select: none;
         }
-        @media (max-width: 900px) {
-          .magic-bento-grid { grid-template-columns: 1fr; }
+        @media (max-width: 1024px) {
+          .magic-bento-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+        }
+        @media (max-width: 768px) {
+          .magic-bento-grid { grid-template-columns: 1fr; gap: 14px; }
         }
         .magic-bento-card {
           position: relative;
@@ -125,10 +132,18 @@ const ProjectsSection = () => {
           pointer-events: none;
           z-index: 1;
         }
-        @media (min-width: 901px) {
+        @media (min-width: 1025px) {
           .magic-bento-card.bento-hero { grid-column: span 2; grid-row: span 2; }
           .magic-bento-card.bento-wide { grid-column: span 2; }
           .magic-bento-card.bento-full { grid-column: span 4; }
+        }
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .magic-bento-card.bento-hero { grid-column: span 2; }
+          .magic-bento-card.bento-wide { grid-column: span 2; }
+          .magic-bento-card.bento-full { grid-column: span 2; }
+        }
+        @media (max-width: 768px) {
+          .magic-bento-card { padding: 24px !important; }
         }
       `}</style>
       <SectionHeader index="03" kicker="SELECTED WORK" title="Projects I'm proud of." right="05 shipped" />
@@ -146,8 +161,12 @@ const PublicationsSection = () => {
   { yr: '2025', title: 'Reducing Hallucination in Clinical LLM Systems', venue: 'AMIA 2025 — peer reviewed' }];
 
   return (
-    <section id="publications" style={{ padding: '120px 72px', background: '#04060c', color: '#e6edf6' }}>
+    <section id="publications" className="pubs-section" style={{ background: '#04060c', color: '#e6edf6' }}>
       <style>{`
+        .pubs-section { padding: 120px 72px; }
+        @media (max-width: 1024px) { .pubs-section { padding: 80px 40px !important; } }
+        @media (max-width: 768px)  { .pubs-section { padding: 60px 20px !important; } }
+
         @keyframes border-spin { to { --angle: 360deg; } }
         @property --angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
         .scholar-border {
@@ -162,13 +181,23 @@ const PublicationsSection = () => {
           padding: 28px;
           height: 100%;
         }
+        .pubs-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 80px; align-items: start; }
+        .pub-row { display: grid; grid-template-columns: 80px 1fr 40px; gap: 24px; padding: 24px 0; border-top: 1px solid rgba(255,255,255,0.06); text-decoration: none; align-items: start; transition: padding .2s; color: #e6edf6; }
+
+        @media (max-width: 1024px) {
+          .pubs-grid { gap: 48px !important; }
+        }
+        @media (max-width: 768px) {
+          .pubs-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+          .pub-row { grid-template-columns: 56px 1fr 28px !important; gap: 12px !important; }
+        }
       `}</style>
       <SectionHeader index="04" kicker="PUBLICATIONS" title="Research + writing." right="04 peer-reviewed" />
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 80, alignItems: 'start' }}>
+      <div className="pubs-grid">
         <div>
           {papers.map((p, i) =>
           <a key={i} href="https://scholar.google.com/citations?user=iJg_oFkAAAAJ" target="_blank" rel="noopener"
-          style={{ display: 'grid', gridTemplateColumns: '80px 1fr 40px', gap: 24, padding: '24px 0', borderTop: '1px solid rgba(255,255,255,0.06)', textDecoration: 'none', alignItems: 'start', transition: 'padding .2s', color: '#e6edf6' }}
+          className="pub-row"
           onMouseEnter={(e) => e.currentTarget.style.paddingLeft = '12px'}
           onMouseLeave={(e) => e.currentTarget.style.paddingLeft = ''}>
               <div style={{ fontFamily: '"JetBrains Mono", monospace', fontSize: 12, color: '#22d3ee' }}>{p.yr}</div>
@@ -227,16 +256,32 @@ const StackSection = () => {
   { glyph: '☁︎', label: 'AWS / GCP' }, { glyph: '⎈', label: 'Docker' }];
 
   return (
-    <section style={{ padding: '120px 72px', background: '#030508', color: '#e6edf6', position: 'relative', overflow: 'hidden' }}>
+    <section className="stack-section" style={{ background: '#030508', color: '#e6edf6', position: 'relative', overflow: 'hidden' }}>
+      <style>{`
+        .stack-section { padding: 120px 72px; }
+        .stack-h2 { font-size: 64px; font-weight: 500; letter-spacing: -2px; margin: 0; }
+        .stack-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+
+        @media (max-width: 1024px) {
+          .stack-section { padding: 80px 40px !important; }
+          .stack-grid { grid-template-columns: repeat(3, 1fr) !important; }
+          .stack-h2 { font-size: 44px !important; }
+        }
+        @media (max-width: 768px) {
+          .stack-section { padding: 60px 20px !important; }
+          .stack-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
+          .stack-h2 { font-size: 32px !important; letter-spacing: -1px !important; }
+        }
+      `}</style>
       <div style={{ position: 'absolute', top: '30%', right: '-10%', width: 500, height: 500, background: 'radial-gradient(ellipse, rgba(244,114,182,0.12), transparent 60%)', filter: 'blur(80px)', pointerEvents: 'none' }} />
       <div style={{ position: 'absolute', top: '10%', left: '-5%', width: 500, height: 500, background: 'radial-gradient(ellipse, rgba(34,211,238,0.1), transparent 60%)', filter: 'blur(80px)', pointerEvents: 'none' }} />
       <div style={{ position: 'relative', marginBottom: 56 }}>
         <div style={{ fontFamily: '"JetBrains Mono", monospace', fontSize: 13, letterSpacing: 3, color: '#f472b6', marginBottom: 14 }}>// TECH_STACK.JSON</div>
-        <h2 style={{ fontSize: 64, fontWeight: 500, letterSpacing: -2, margin: 0 }}>
+        <h2 className="stack-h2">
           My <span style={{ fontStyle: 'italic', fontWeight: 300, background: 'linear-gradient(90deg,#22d3ee,#a5f3fc)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>arsenal.</span>
         </h2>
       </div>
-      <div style={{ position: 'relative', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 18 }}>
+      <div className="stack-grid" style={{ position: 'relative' }}>
         {tiles.map((t) => <StackTile key={t.label} {...t} />)}
       </div>
     </section>);
@@ -354,39 +399,69 @@ const ContactSection = () => {
 
   return (
     <section id="contact" ref={heroRef} style={{
-      position: 'relative', minHeight: 820, overflow: 'hidden',
+      position: 'relative', overflow: 'hidden',
       background: 'radial-gradient(ellipse at 50% 30%, #0e1a2e 0%, #060912 60%, #02040a 100%)',
       color: '#e6edf6', fontFamily: "'Inter Tight', system-ui, sans-serif"
     }}>
+      <style>{`
+        .contact-section-inner { min-height: 820px; }
+        .contact-top-bar { position: absolute; top: 32px; left: 0; right: 0; display: flex; justify-content: space-between; padding: 0 56px; z-index: 5; align-items: center; }
+        .contact-h1 { font-size: 84px; font-weight: 500; letter-spacing: -3px; line-height: 0.95; margin: 0; }
+        .contact-headline { position: relative; padding-top: 100px; text-align: center; z-index: 4; }
+        .contact-keyboard-wrap { position: relative; margin-top: 56px; display: flex; justify-content: center; z-index: 5; padding-bottom: 100px; }
+        .contact-key-row { display: flex; gap: 10px; margin-bottom: 10px; }
+        .contact-spacebar { width: 390px; height: 38px; }
+        .contact-parallax-blob { width: 900px; height: 500px; }
+
+        @media (max-width: 1024px) {
+          .contact-top-bar { padding: 0 32px !important; }
+          .contact-h1 { font-size: 64px !important; }
+        }
+        @media (max-width: 768px) {
+          .contact-section-inner { min-height: unset !important; }
+          .contact-top-bar { padding: 0 20px !important; }
+          .contact-top-bar-right { display: none; }
+          .contact-h1 { font-size: 40px !important; letter-spacing: -2px !important; }
+          .contact-headline { padding-top: 72px !important; }
+          .contact-keyboard-wrap { margin-top: 36px !important; padding-bottom: 60px !important; }
+          .contact-key-row { margin-left: 0 !important; justify-content: center; }
+          .contact-spacebar { width: 100% !important; max-width: 216px !important; }
+          .contact-parallax-blob { width: min(600px, 90vw) !important; height: 300px !important; }
+        }
+        @media (max-width: 480px) {
+          .contact-h1 { font-size: 32px !important; }
+        }
+      `}</style>
+      <div className="contact-section-inner">
       <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(34,211,238,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(34,211,238,0.05) 1px,transparent 1px)', backgroundSize: '48px 48px', maskImage: 'radial-gradient(ellipse at 50% 60%, #000 20%, transparent 80%)' }} />
-      <div ref={parallaxRef} style={{ position: 'absolute', top: '20%', left: '50%', transform: 'translateX(-50%)', width: 900, height: 500, background: 'radial-gradient(ellipse, rgba(34,211,238,0.18), transparent 60%)', filter: 'blur(80px)', willChange: 'transform' }} />
-      <div style={{ position: 'absolute', left: mouse.x * 100 + '%', top: mouse.y * 100 + '%', width: 600, height: 600, transform: 'translate(-50%,-50%)', background: 'radial-gradient(circle, rgba(34,211,238,0.1), transparent 60%)', pointerEvents: 'none', mixBlendMode: 'screen' }} />
+      <div ref={parallaxRef} className="contact-parallax-blob" style={{ position: 'absolute', top: '20%', left: '50%', transform: 'translateX(-50%)', background: 'radial-gradient(ellipse, rgba(34,211,238,0.18), transparent 60%)', filter: 'blur(80px)', willChange: 'transform' }} />
+      <div style={{ position: 'absolute', left: mouse.x * 100 + '%', top: mouse.y * 100 + '%', width: 'min(600px,80vw)', height: 'min(600px,80vw)', transform: 'translate(-50%,-50%)', background: 'radial-gradient(circle, rgba(34,211,238,0.1), transparent 60%)', pointerEvents: 'none', mixBlendMode: 'screen' }} />
 
       {/* top header */}
-      <div style={{ position: 'absolute', top: 32, left: 0, right: 0, display: 'flex', justifyContent: 'space-between', padding: '0 56px', zIndex: 5, alignItems: 'center' }}>
+      <div className="contact-top-bar">
         <div style={{ fontSize: 13, fontFamily: '"JetBrains Mono", monospace', color: 'rgba(230,237,246,0.55)', letterSpacing: 1.5 }}>
           KANAVCHOPRA.COM<span style={{ color: '#22d3ee' }}>/</span>CONTACT
         </div>
-        <div style={{ fontSize: 12, fontFamily: '"JetBrains Mono", monospace', color: 'rgba(230,237,246,0.4)' }}>
+        <div className="contact-top-bar-right" style={{ fontSize: 12, fontFamily: '"JetBrains Mono", monospace', color: 'rgba(230,237,246,0.4)' }}>
           PRESS · ANY · KEY ·
         </div>
       </div>
 
       {/* headline */}
-      <div style={{ position: 'relative', paddingTop: 100, textAlign: 'center', zIndex: 4 }}>
+      <div className="contact-headline">
         <div style={{ fontFamily: '"JetBrains Mono", monospace', fontSize: 11, color: '#22d3ee', letterSpacing: 3, marginBottom: 14 }}>
           /* 05 · CONTACT · LET'S BUILD */
         </div>
-        <h1 style={{ fontSize: 84, fontWeight: 500, letterSpacing: -3, lineHeight: 0.95, margin: 0 }}>
+        <h1 className="contact-h1">
           I build with <span style={{ fontStyle: 'italic', fontWeight: 300, background: 'linear-gradient(90deg,#22d3ee,#a5f3fc)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>intent</span>.
         </h1>
-        <p style={{ fontSize: 16, color: 'rgba(230,237,246,0.6)', maxWidth: 560, margin: '18px auto 0', lineHeight: 1.55 }}>
+        <p style={{ fontSize: 16, color: 'rgba(230,237,246,0.6)', maxWidth: 560, margin: '18px auto 0', lineHeight: 1.55, padding: '0 20px' }}>
           Open to collaborations on clinical AI, research engineering, and senior full-stack work. Currently at Stanford, shipping from Palo Alto.
         </p>
       </div>
 
       {/* keyboard */}
-      <div style={{ position: 'relative', marginTop: 56, display: 'flex', justifyContent: 'center', zIndex: 5, paddingBottom: 100 }}>
+      <div className="contact-keyboard-wrap">
         <div>
           <div style={{ padding: '26px 28px 22px', borderRadius: 20, background: 'linear-gradient(180deg, rgba(20,28,42,0.8), rgba(8,14,24,0.8))', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 40px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08)', backdropFilter: 'blur(20px)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, padding: '0 4px' }}>
@@ -397,7 +472,7 @@ const ContactSection = () => {
               </span>
             </div>
             {rows.map((row, ri) =>
-            <div key={ri} style={{ display: 'flex', gap: 10, marginBottom: 10, marginLeft: ri * 14 }}>
+            <div key={ri} className="contact-key-row" style={{ marginLeft: ri * 14 }}>
                 {row.map((k) =>
               <ContactKey key={k.id} k={k}
               isActive={active === k.id} isPressed={pressed[k.id]}
@@ -407,7 +482,7 @@ const ContactSection = () => {
               </div>
             )}
             <div style={{ display: 'flex', gap: 10, marginTop: 10, marginLeft: 40, alignItems: 'center' }}>
-              <div style={{ width: 390, height: 38, borderRadius: 8, background: 'linear-gradient(180deg, #1a2338, #0f172a)', border: '1px solid rgba(255,255,255,0.05)', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.06), 0 2px 0 rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, color: 'rgba(230,237,246,0.3)', fontFamily: '"JetBrains Mono", monospace', letterSpacing: 3 }}>
+              <div className="contact-spacebar" style={{ borderRadius: 8, background: 'linear-gradient(180deg, #1a2338, #0f172a)', border: '1px solid rgba(255,255,255,0.05)', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.06), 0 2px 0 rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, color: 'rgba(230,237,246,0.3)', fontFamily: '"JetBrains Mono", monospace', letterSpacing: 3 }}>
                 — — — — — — — — — — — — — — —
               </div>
             </div>
@@ -421,6 +496,7 @@ const ContactSection = () => {
           </div>
         </div>
       </div>
+      </div>{/* end contact-section-inner */}
     </section>);
 
 };
@@ -437,13 +513,36 @@ const FooterLink = ({ href, onClick, children }) => {
 };
 
 const FooterSection = () =>
-<footer style={{ padding: '64px 72px 40px', background: '#02030a', color: 'rgba(230,237,246,0.6)', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 56 }}>
+<footer className="footer-section" style={{ background: '#02030a', color: 'rgba(230,237,246,0.6)', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+    <style>{`
+      .footer-section { padding: 64px 72px 40px; }
+      .footer-top { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 56px; }
+      .footer-name { font-size: 72px; font-weight: 500; letter-spacing: -3px; color: rgba(230,237,246,0.9); line-height: 0.9; margin-bottom: 12px; }
+      .footer-links-grid { display: grid; grid-template-columns: repeat(3, auto); gap: 48px; text-align: right; }
+      .footer-bottom { display: flex; justify-content: space-between; font-size: 11px; font-family: "JetBrains Mono", monospace; color: rgba(230,237,246,0.35); letter-spacing: 1.5px; padding-top: 28px; border-top: 1px solid rgba(255,255,255,0.05); }
+
+      @media (max-width: 1024px) {
+        .footer-section { padding: 48px 40px 32px !important; }
+        .footer-name { font-size: 52px !important; }
+        .footer-links-grid { gap: 32px !important; }
+      }
+      @media (max-width: 768px) {
+        .footer-section { padding: 48px 20px 32px !important; }
+        .footer-top { flex-direction: column !important; align-items: flex-start !important; gap: 36px !important; margin-bottom: 36px !important; }
+        .footer-name { font-size: 40px !important; letter-spacing: -2px !important; }
+        .footer-links-grid { grid-template-columns: repeat(2, auto) !important; gap: 28px !important; text-align: left !important; }
+        .footer-bottom { flex-direction: column !important; gap: 6px !important; }
+      }
+      @media (max-width: 375px) {
+        .footer-name { font-size: 32px !important; }
+      }
+    `}</style>
+    <div className="footer-top">
       <div style={{ cursor: 'pointer' }} onClick={() => scrollTo('top')}>
-        <div style={{ fontSize: 72, fontWeight: 500, letterSpacing: -3, color: 'rgba(230,237,246,0.9)', lineHeight: 0.9, marginBottom: 12 }}>Kanav <span style={{ fontStyle: 'italic', fontWeight: 300 }}>Chopra</span>.</div>
+        <div className="footer-name">Kanav <span style={{ fontStyle: 'italic', fontWeight: 300 }}>Chopra</span>.</div>
         <div style={{ fontSize: 13, fontFamily: '"JetBrains Mono", monospace', letterSpacing: 1.5, color: 'rgba(230,237,246,0.4)' }}>AI RESEARCHER · FULL-STACK · STANFORD</div>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, auto)', gap: 48, textAlign: 'right' }}>
+      <div className="footer-links-grid">
         <div>
           <div style={{ fontSize: 10, letterSpacing: 2, color: 'rgba(230,237,246,0.35)', fontFamily: '"JetBrains Mono", monospace', marginBottom: 14 }}>SOCIAL</div>
           <FooterLink href="https://www.linkedin.com/in/kanav-chopra-707a4212a/">LinkedIn ↗</FooterLink>
@@ -465,7 +564,7 @@ const FooterSection = () =>
         </div>
       </div>
     </div>
-    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, fontFamily: '"JetBrains Mono", monospace', color: 'rgba(230,237,246,0.35)', letterSpacing: 1.5, paddingTop: 28, borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+    <div className="footer-bottom">
       <div>© 2026 KANAV CHOPRA · ALL RIGHTS RESERVED</div>
       <div>BUILT WITH CARE · PALO ALTO</div>
     </div>

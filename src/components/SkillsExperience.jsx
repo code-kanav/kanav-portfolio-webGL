@@ -141,7 +141,7 @@ export const SkillsSection = () => {
   const headIn = useInView(headRef, 0.3);
 
   return (
-    <section id="skills" style={{position:'relative', padding:'140px 72px 120px', background:'linear-gradient(180deg, #04060c 0%, #06091a 50%, #04060c 100%)', color:'#e6edf6', overflow:'hidden'}}>
+    <section id="skills" className="skills-section" style={{position:'relative', background:'linear-gradient(180deg, #04060c 0%, #06091a 50%, #04060c 100%)', color:'#e6edf6', overflow:'hidden'}}>
       <style>{`
         @keyframes sk-drift {
           0% { transform: translate(0,0) rotate(0deg); }
@@ -152,6 +152,28 @@ export const SkillsSection = () => {
           0% { transform: rotate(0deg) translateX(140px) rotate(0deg); }
           100% { transform: rotate(360deg) translateX(140px) rotate(-360deg); }
         }
+        .skills-section { padding: 140px 72px 120px; }
+        .skills-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 64px; padding-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+        .skills-grid-top { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 20px; }
+        .skills-grid-bot { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; max-width: 66%; margin: 0 auto; }
+        .skills-h2 { font-size: 64px; font-weight: 500; letter-spacing: -2px; margin: 0; line-height: 1; }
+        .skills-header-right { font-size: 13px; color: rgba(230,237,246,0.5); font-family: "JetBrains Mono", monospace; text-align: right; }
+
+        @media (max-width: 1024px) {
+          .skills-section { padding: 80px 40px 80px !important; }
+          .skills-grid-top { grid-template-columns: repeat(2, 1fr) !important; }
+          .skills-grid-bot { grid-template-columns: repeat(2, 1fr) !important; max-width: 100% !important; }
+          .skills-h2 { font-size: 44px !important; }
+        }
+
+        @media (max-width: 768px) {
+          .skills-section { padding: 60px 20px 60px !important; }
+          .skills-header { flex-direction: column !important; align-items: flex-start !important; gap: 12px !important; margin-bottom: 36px !important; }
+          .skills-header-right { display: none !important; }
+          .skills-grid-top { grid-template-columns: 1fr !important; }
+          .skills-grid-bot { grid-template-columns: 1fr !important; max-width: 100% !important; }
+          .skills-h2 { font-size: 32px !important; letter-spacing: -1px !important; }
+        }
       `}</style>
 
       {/* aurora + grid background */}
@@ -161,24 +183,24 @@ export const SkillsSection = () => {
       <FloatingGlyphs/>
 
       {/* header */}
-      <div ref={headRef} style={{position:'relative', marginBottom:64, display:'flex', justifyContent:'space-between', alignItems:'flex-end', paddingBottom:24, borderBottom:'1px solid rgba(255,255,255,0.08)', opacity: headIn?1:0, transform: headIn?'translateY(0)':'translateY(24px)', transition:'all .8s cubic-bezier(.2,.7,.3,1)'}}>
+      <div ref={headRef} className="skills-header" style={{position:'relative', opacity: headIn?1:0, transform: headIn?'translateY(0)':'translateY(24px)', transition:'all .8s cubic-bezier(.2,.7,.3,1)'}}>
         <div>
           <div style={{fontFamily:'"JetBrains Mono", monospace', fontSize:11, letterSpacing:3, color:'#22d3ee', marginBottom:14}}>01 / SKILLS</div>
-          <h2 style={{fontSize:64, fontWeight:500, letterSpacing:-2, margin:0, lineHeight:1}}>
+          <h2 className="skills-h2">
             What I'm <span style={{fontStyle:'italic', fontWeight:300, background:'linear-gradient(90deg,#22d3ee,#a5f3fc,#f472b6)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent'}}>fluent</span> in.
           </h2>
         </div>
-        <div style={{fontSize:13, color:'rgba(230,237,246,0.5)', fontFamily:'"JetBrains Mono", monospace', textAlign:'right'}}>
+        <div className="skills-header-right">
           <div>05 categories</div>
           <div style={{color:'rgba(230,237,246,0.35)', marginTop:4}}>hover to explore ↗</div>
         </div>
       </div>
 
       {/* grid — 3 cols top, 2 cols bottom (offset) */}
-      <div style={{position:'relative', display:'grid', gridTemplateColumns:'repeat(3, 1fr)', gap:20, marginBottom:20}}>
+      <div className="skills-grid-top" style={{position:'relative'}}>
         {cats.slice(0,3).map((c, i) => <SkillCategory key={c.title} cat={c} idx={i}/>)}
       </div>
-      <div style={{position:'relative', display:'grid', gridTemplateColumns:'repeat(2, 1fr)', gap:20, maxWidth:'66%', margin:'0 auto'}}>
+      <div className="skills-grid-bot" style={{position:'relative'}}>
         {cats.slice(3).map((c, i) => <SkillCategory key={c.title} cat={c} idx={i+3}/>)}
       </div>
     </section>
@@ -241,19 +263,43 @@ export const ExperienceStack = () => {
 
   return (
     <section id="experience" style={{position:'relative', background:'#04060c', color:'#e6edf6', overflow:'visible'}}>
-      <div ref={headRef} style={{
-        padding:'120px 72px 32px',
+      <style>{`
+        .exp-header-pad { padding: 120px 72px 32px; }
+        .exp-cards-pad { padding: 0 72px; }
+        .exp-header-row { display: flex; justify-content: space-between; align-items: flex-end; padding-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+        .exp-h2 { font-size: 52px; font-weight: 500; letter-spacing: -1.5px; margin: 0; line-height: 1; }
+        .exp-header-right { font-size: 13px; color: rgba(230,237,246,0.5); font-family: "JetBrains Mono", monospace; text-align: right; }
+        .exp-card-inner { padding: 36px 44px; }
+        .exp-bullets { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 32px; }
+
+        @media (max-width: 1024px) {
+          .exp-header-pad { padding: 80px 40px 32px !important; }
+          .exp-cards-pad { padding: 0 40px !important; }
+          .exp-h2 { font-size: 38px !important; }
+        }
+
+        @media (max-width: 768px) {
+          .exp-header-pad { padding: 60px 20px 24px !important; }
+          .exp-cards-pad { padding: 0 20px !important; }
+          .exp-header-row { flex-direction: column !important; align-items: flex-start !important; gap: 10px !important; }
+          .exp-header-right { display: none !important; }
+          .exp-h2 { font-size: 28px !important; letter-spacing: -0.5px !important; }
+          .exp-card-inner { padding: 24px 20px !important; }
+          .exp-bullets { grid-template-columns: 1fr !important; gap: 8px !important; }
+        }
+      `}</style>
+      <div ref={headRef} className="exp-header-pad" style={{
         opacity: headIn?1:0, transform: headIn?'translateY(0)':'translateY(24px)',
         transition:'all .8s cubic-bezier(.2,.7,.3,1)',
       }}>
-        <div style={{display:'flex', justifyContent:'space-between', alignItems:'flex-end', paddingBottom:24, borderBottom:'1px solid rgba(255,255,255,0.08)'}}>
+        <div className="exp-header-row">
           <div>
             <div style={{fontFamily:'"JetBrains Mono", monospace', fontSize:11, letterSpacing:3, color:'#22d3ee', marginBottom:14}}>02 / EXPERIENCE</div>
-            <h2 style={{fontSize:52, fontWeight:500, letterSpacing:-1.5, margin:0, lineHeight:1}}>
+            <h2 className="exp-h2">
               What I've been <span style={{fontStyle:'italic', fontWeight:300, background:'linear-gradient(90deg,#22d3ee,#a5f3fc)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent'}}>building</span>.
             </h2>
           </div>
-          <div style={{fontSize:13, color:'rgba(230,237,246,0.5)', fontFamily:'"JetBrains Mono", monospace', textAlign:'right'}}>
+          <div className="exp-header-right">
             <div>{String(roles.length).padStart(2,'0')} roles · 5+ yrs</div>
             <div style={{color:'rgba(230,237,246,0.35)', marginTop:4}}>scroll to stack ↓</div>
           </div>
@@ -261,7 +307,7 @@ export const ExperienceStack = () => {
       </div>
 
       {/* Stack — each card sticks; as next enters, the previous sits behind it */}
-      <div style={{padding:'0 72px', position:'relative'}}>
+      <div className="exp-cards-pad" style={{position:'relative'}}>
         {roles.map((r, i) => (
           <StackCard key={i} role={r} i={i} total={roles.length} cardH={CARD_H} overlap={OVERLAP}/>
         ))}
@@ -306,10 +352,9 @@ const StackCard = ({ role, i, total, cardH, overlap }) => {
       marginBottom: -overlap,
       zIndex: 10 + i,
     }}>
-      <div ref={ref} style={{
+      <div ref={ref} className="exp-card-inner" style={{
         position:'relative',
         minHeight: cardH,
-        padding:'36px 44px',
         borderRadius: 18,
         background: 'linear-gradient(155deg, #0f1829 0%, #0a1120 100%)',
         border:'1px solid rgba(255,255,255,0.08)',
@@ -347,7 +392,7 @@ const StackCard = ({ role, i, total, cardH, overlap }) => {
         </h3>
 
         {/* bullets — progressive reveal */}
-        <ul style={{position:'relative', margin:0, padding:0, listStyle:'none', marginBottom:22, display:'grid', gridTemplateColumns:'1fr 1fr', gap:'8px 32px', maxWidth:1000}}>
+        <ul className="exp-bullets" style={{position:'relative', margin:0, padding:0, listStyle:'none', marginBottom:22, maxWidth:1000}}>
           {role.bullets.map((b,j) => (
             <li key={j} style={{
               fontSize:13.5, lineHeight:1.55, color:'rgba(230,237,246,0.78)',

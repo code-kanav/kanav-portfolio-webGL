@@ -211,18 +211,22 @@ const BentoCard = ({ project, span = '', className = '' }) => {
 export const MagicBentoProjects = ({ projects }) => {
   const gridRef = React.useRef(null);
   useGlobalSpotlight(gridRef);
-  // Layout (4-col grid):
-  // Row 1: [SAGE 2×2] [Health Path 1×1] [ARISE 1×1]
-  // Row 2: [SAGE cont] [HR Platform 2×1]
-  // Row 3: [Clinical Research Agent 4×1]
   return (
-    <div ref={gridRef} className="bento-section magic-bento-grid">
-      <BentoCard project={projects[0]} span="bento-hero"/>
-      <BentoCard project={projects[1]}/>
-      <BentoCard project={projects[2]}/>
-      <BentoCard project={projects[3]} span="bento-wide"/>
-      <BentoCard project={projects[4]} span="bento-full"/>
-    </div>
+    <>
+      <style>{`
+        @media (max-width: 768px) {
+          .magic-bento-card h3 { font-size: 22px !important; }
+          .magic-bento-card p  { font-size: 13px !important; }
+        }
+      `}</style>
+      <div ref={gridRef} className="bento-section magic-bento-grid">
+        <BentoCard project={projects[0]} span="bento-hero"/>
+        <BentoCard project={projects[1]}/>
+        <BentoCard project={projects[2]}/>
+        <BentoCard project={projects[3]} span="bento-wide"/>
+        <BentoCard project={projects[4]} span="bento-full"/>
+      </div>
+    </>
   );
 };
 

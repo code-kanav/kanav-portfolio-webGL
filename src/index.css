@@ -1,6 +1,26 @@
 html { scroll-behavior: smooth; }
-html, body { margin: 0; padding: 0; background: #04060c; }
+html, body { margin: 0; padding: 0; background: #04060c; overflow-x: hidden; }
 * { box-sizing: border-box; }
+
+/* ── Responsive section padding ── */
+.sec-pad { padding: 120px 72px; }
+@media (max-width: 1024px) { .sec-pad { padding: 80px 40px !important; } }
+@media (max-width: 768px)  { .sec-pad { padding: 60px 20px !important; } }
+
+/* ── Responsive section header h2 ── */
+@media (max-width: 1024px) { .sec-h2 { font-size: 40px !important; } }
+@media (max-width: 768px)  { .sec-h2 { font-size: 28px !important; letter-spacing: -1px !important; } }
+
+/* ── Section header row ── */
+@media (max-width: 768px) {
+  .sec-header-row {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+    margin-bottom: 36px !important;
+  }
+  .sec-header-right { display: none !important; }
+}
 
 @keyframes blink { 0%, 49% { opacity: 1 } 50%, 100% { opacity: 0 } }
 .blink { display: inline-block; width: 8px; height: 14px; animation: blink 1s step-end infinite; }
