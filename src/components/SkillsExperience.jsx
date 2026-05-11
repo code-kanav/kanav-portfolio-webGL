@@ -131,7 +131,7 @@ export const SkillsSection = () => {
       tools:['Claude','Gemini','LangChain','Vector DB','HF','OpenAI'] },
     { title:'Cloud & DevOps', tag:'Ship it, measure it, keep it up.', glyph:'☁', accent:'#8b5cf6',
       skills:[{n:'GCP · AWS', p:86},{n:'Docker · CI/CD', p:88},{n:'Vercel · Edge', p:90},{n:'Monitoring', p:80}],
-      tools:['GCP','AWS','Docker','GitHub Actions','Vercel','Cloudflare'] },
+      tools:['GCP','AWS','Docker','GitHub Actions','Vercel'] },
     { title:'Databases & Tools', tag:'Data modeling + tooling that holds.', glyph:'🐘', accent:'#67e8f9',
       skills:[{n:'PostgreSQL', p:92},{n:'Prisma · ORMs', p:86},{n:'SSE · WebSockets', p:88},{n:'Git · Testing', p:90}],
       tools:['Postgres','Prisma','SSE','WebSockets','Jest','Playwright'] },
