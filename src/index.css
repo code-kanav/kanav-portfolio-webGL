@@ -1,5 +1,5 @@
 html { scroll-behavior: smooth; }
-html, body { margin: 0; padding: 0; background: #04060c; overflow-x: hidden; }
+html, body { margin: 0; padding: 0; background: #04060c; overflow-x: clip; }
 * { box-sizing: border-box; }
 
 /* ── Responsive section padding ── */
