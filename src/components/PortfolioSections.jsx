@@ -70,7 +70,7 @@ const ProjectsSection = () => {
     desc: '5-agent LangGraph pipeline with ReAct + self-reflection across PubMed, Semantic Scholar, and arXiv.',
     highlights: ['Swappable Claude/Gemini-on-Vertex via ADC.', 'Eval harness: citation accuracy, faithfulness, latency, token cost.'],
     stack: ['Python', 'LangGraph', 'Vertex AI', 'Claude', 'Gemini'], accent: '#8b5cf6', href: 'https://github.com/code-kanav/clinical-research-agent' },
-  { n: '03', name: 'Stanford Health Path', tag: 'patient routing', url: 'stanford-healthpath.vercel.app', href: 'https://github.com/code-kanav/healthpath-backend',
+  { n: '03', name: 'Stanford Health Path', tag: 'patient routing', url: 'stanford-healthpath.vercel.app', href: 'https://stanford-healthpath.vercel.app/',
     desc: '"Google Maps for patients" — suggests healthcare routes using an LLM to plan care journeys.',
     highlights: ['LLM-planned routing across provider networks.', 'Patient-first UI focused on clarity and next-step confidence.'],
     stack: ['Next.js', 'TypeScript', 'LLM'], accent: '#a5f3fc' },
@@ -546,7 +546,7 @@ const FooterSection = () =>
         <div>
           <div style={{ fontSize: 10, letterSpacing: 2, color: 'rgba(230,237,246,0.35)', fontFamily: '"JetBrains Mono", monospace', marginBottom: 14 }}>SOCIAL</div>
           <FooterLink href="https://www.linkedin.com/in/kanav-chopra-707a4212a/">LinkedIn ↗</FooterLink>
-          <FooterLink href="https://github.com/">GitHub ↗</FooterLink>
+          <FooterLink href="https://github.com/code-kanav">GitHub ↗</FooterLink>
           <FooterLink href="https://scholar.google.com/citations?user=iJg_oFkAAAAJ">Scholar ↗</FooterLink>
         </div>
         <div>
