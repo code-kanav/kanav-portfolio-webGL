@@ -757,7 +757,7 @@ textarea.rs-input{resize:vertical;min-height:5.2em}
     <h2 class="cl-title rv" style="--rd:.1s">We can’t wait to celebrate with you</h2>
     <svg class="cl-fl rv" style="--rd:.2s" viewBox="0 0 120 20" aria-hidden="true"><use href="#flourish"/></svg>
     <p class="cl-love rv" style="--rd:.3s">With love,</p>
-    <p class="cl-fam rv" style="--rd:.4s">the Chopra &amp; Gandral families</p>
+    <p class="cl-fam rv" style="--rd:.4s">Chopra &amp; Gandral families</p>
     <p class="cl-names rv" style="--rd:.5s">Kanav &amp; Shreya · 27.02.2027</p>
     <div class="cl-garland" id="clGarland" aria-hidden="true"></div>
   </section>
@@ -1353,9 +1353,9 @@ var PHOTOS=[
   var EVENTS = [
     { n: 'Mata Ki Chowki', d: 'Tuesday, 23 February 2027', t: '5:30 PM – 7:30 PM', p: HOME, m: MAPS_HOME, dc: 'Traditional, in red or bright festive colours', sw: ['#b3161f', '#e2b54a'], th: 't-red', ic: 'diya', glow: '#c9463c' },
     { n: 'Shagun', d: 'Thursday, 25 February 2027', t: '10:30 AM', p: HOME, m: MAPS_HOME, dc: 'Traditional, in pastels', sw: ['#f6bfa4', '#fff8ea'], th: 't-peach', ic: 'gift', glow: '#f3b79c' },
-    { n: 'Sufi Night / Cocktail', d: 'Thursday, 25 February 2027', t: '7:30 PM', p: 'By the Woods, Amantran Farms', m: 'https://maps.app.goo.gl/GUteteoak5C3TTMD9', dc: 'Indo-western or cocktail glam', sw: ['#14244f', '#e2b54a'], th: 't-night', ic: 'moon', glow: '#3c4c94' },
-    { n: 'Haldi', d: 'Friday, 26 February 2027', t: '11:00 AM', p: 'Radisson Blu (Pool Side)', m: 'https://maps.app.goo.gl/YrNxC6c4HCh2knb2A', dc: 'Wear yellow, light and comfortable', sw: ['#ffd23f'], th: 't-yellow', ic: 'flower', glow: '#ffd23f' },
-    { n: 'Mehendi & Sangeet', d: 'Friday, 26 February 2027', t: '7:30 PM', p: 'Anutham', m: 'https://maps.app.goo.gl/N6wTnJr6jmVBjGLMA', dc: 'Shimmery dark colours', sw: ['#0f5a48', '#5a1f52', '#e2b54a'], th: 't-emerald', ic: 'note', shim: true, glow: '#2c7a66' },
+    { n: 'Sufi Night / Cocktail', d: 'Thursday, 25 February 2027', t: '7:30 PM', p: 'By the Woods, Amantran Farms', m: 'https://maps.app.goo.gl/GUteteoak5C3TTMD9', dc: 'Girls: Sharara / Gharara\nBoys: Indo-Western', sw: ['#14244f', '#e2b54a'], th: 't-night', ic: 'moon', glow: '#3c4c94' },
+    { n: 'Haldi', d: 'Friday, 26 February 2027', t: '11:00 AM', p: 'Radisson Blu (Pool Side)', m: 'https://maps.app.goo.gl/YrNxC6c4HCh2knb2A', dc: 'Wear yellow or pink, light and comfortable', sw: ['#ffd23f', '#f48fb1'], th: 't-yellow', ic: 'flower', glow: '#ffd23f' },
+    { n: 'Mehendi & Sangeet', d: 'Friday, 26 February 2027', t: '7:30 PM', p: 'Anutham', m: 'https://maps.app.goo.gl/N6wTnJr6jmVBjGLMA', dc: 'Shimmery and glittery', sw: ['#e2b54a', '#cfd2d9', '#e8a49c'], th: 't-emerald', ic: 'note', shim: true, glow: '#2c7a66' },
     { n: 'Saant', d: 'Saturday, 27 February 2027', t: '10:00 AM', p: HOME, m: MAPS_HOME, dc: 'Simple traditional', sw: ['#f58a07'], th: 't-marigold', ic: 'kalash', glow: '#f79a1c' },
     { n: 'Sehra Bandi', d: 'Saturday, 27 February 2027', t: '5:00 PM', p: HOME, m: MAPS_HOME, dc: 'Traditional festive', sw: ['#fbf1d8', '#d9b662'], th: 't-cream', ic: 'turban', glow: '#e6cf8e' },
     { n: 'Baraat & Reception', d: 'Saturday, 27 February 2027', t: '7:30 PM · Pheras at 9:45 PM', p: 'Royal Retreat, Hari Niwas, Jammu', m: MAPS_VENUE, dc: 'Grand festive Indian wear', sw: ['#a81f68', '#e2b54a'], th: 't-rani', ic: 'fire', glow: '#c2417f' }
@@ -1779,7 +1779,7 @@ var PHOTOS=[
         '<div class="ev-body"><h3 class="ev-name">' + esc(ev.n) + '</h3><p class="ev-day">' + ev.d + '</p>' +
         '<ul class="ev-meta"><li>' + I_CLOCK + '<span>' + ev.t + '</span></li><li>' + I_PIN + '<span>' + esc(ev.p) + '</span></li></ul>' +
         '<div class="ev-dress"><span class="ev-sw" aria-hidden="true">' + ev.sw.map(function (c) { return '<i style="background:' + c + '"></i>'; }).join('') + '</span>' +
-        '<span><small>Dress code</small>' + esc(ev.dc) + '</span></div>' +
+        '<span><small>Dress code</small>' + esc(ev.dc).replace(/\n/g, '<br>') + '</span></div>' +
         '<a class="ev-map" href="' + ev.m + '" target="_blank" rel="noopener">' + I_PIN + 'Open in Maps</a></div>' +
         (ev.shim ? '<div class="ev-shim"></div>' : '') + '</div>';
       track.appendChild(it);
