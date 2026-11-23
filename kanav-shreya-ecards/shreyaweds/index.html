@@ -265,7 +265,8 @@ ul{list-style:none}
 .cf.dragging{cursor:grabbing}
 .cf-track{position:relative;height:var(--ch);-webkit-transform-style:preserve-3d;transform-style:preserve-3d}
 .cf-item{position:absolute;left:50%;top:0;width:var(--cw);height:var(--ch);margin-left:calc(var(--cw)/-2);
-  transition:transform .6s cubic-bezier(.22,.8,.24,1),opacity .6s ease;-webkit-backface-visibility:hidden;backface-visibility:hidden}
+  transition:transform .6s cubic-bezier(.22,.8,.24,1),opacity .6s ease;-webkit-backface-visibility:hidden;backface-visibility:hidden;will-change:transform,opacity}
+.cf.auto .cf-item{transition:transform 1s cubic-bezier(.45,.05,.2,1),opacity 1s ease}
 .cf.dragging .cf-item{transition:none}
 .cf-card{height:100%;border-radius:22px;overflow:hidden;position:relative}
 /* neighbours are softened with a static blur that is switched, never animated */
@@ -1364,6 +1365,7 @@ var PHOTOS=[
   EVENTS.forEach(function (ev, i) { ev.i = i; });   /* remember which painted scene belongs to which function */
   if (CARD_EVENTS) EVENTS = EVENTS.filter(function (ev) { return CARD_EVENTS.indexOf(ev.n) !== -1; });
   var CAPTIONS = ['A ring and a promise', 'Sweet beginnings', 'Leading the way', 'Laughing through it all', 'Our kind of music', 'Twirling into forever', 'Hand in hand'];
+  var PHOTO_ZOOM = { 'Laughing through it all': [1.5, '48% 60%'] };   /* [scale, transform-origin on the couple] */
 
   var ICONS = {
     diya: '<path class="a-flick" d="M12 3.5c2 2.200 3 3.900 3 5.400a3 3 0 0 1-6 0c0-1.500 1-3.200 3-5.400z"/><path d="M4 14c0 3.300 3.600 5.500 8 5.500s8-2.200 8-5.500c-2.600 1-5.200 1.500-8 1.500S6.600 15 4 14z"/>',
@@ -1788,6 +1790,7 @@ var PHOTOS=[
     PHOTOS.forEach(function (src, i) {
       var it = el('article', 'cf-item'), fig = el('figure', 'cf-card ph'), box = el('div', 'ph-img'), im = new Image(), cap = el('figcaption');
       im.alt = 'Kanav and Shreya: ' + CAPTIONS[i]; im.decoding = 'async'; im.draggable = false; im.src = src;
+      var zoom = PHOTO_ZOOM[CAPTIONS[i]]; if (zoom) { im.style.transform = 'scale(' + zoom[0] + ')'; im.style.transformOrigin = zoom[1]; }
       cap.textContent = CAPTIONS[i]; box.appendChild(im); fig.appendChild(box); fig.appendChild(cap); it.appendChild(fig); track.appendChild(it);
     });
   }
@@ -1821,18 +1824,22 @@ var PHOTOS=[
   function autoplayStory() {
     if (!('IntersectionObserver' in window)) return;
     if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var EVERY = 1600, timer = 0, box = cfStory.box;   /* .6s slide, then each photo holds still for 1s */
-    function stop() { clearInterval(timer); timer = 0; }
-    function start() {
-      stop();
-      timer = setInterval(function () { if (!cfStory.drag && !document.hidden) cfStory.go(Math.round(cfStory.pos) + 1); }, EVERY);
+    var EVERY = 3000, timer = 0, box = cfStory.box;   /* 1s glide (.cf.auto), then each photo holds still for 2s */
+    function advance() {
+      if (cfStory.drag || document.hidden) return;
+      var t = Math.round(cfStory.pos) + 1, n = cfStory.n;
+      box.classList.add('auto');
+      cfStory.pos = t; cfStory.index = ((t % n) + n) % n; cfStory.layout(true);
+      setTimeout(function () { cfStory.mark(); }, 450);   /* swap the neighbour blur mid-glide, when the cards cross */
     }
-    function restart() { if (timer) start(); }
+    function stop() { clearInterval(timer); timer = 0; }
+    function start() { stop(); timer = setInterval(advance, EVERY); }
+    function restart() { box.classList.remove('auto'); if (timer) start(); }
     new IntersectionObserver(function (list) {
       if (list[list.length - 1].isIntersecting) start(); else stop();
     }, { threshold: .6 }).observe(box);
-    box.addEventListener('pointerdown', restart); box.addEventListener('keydown', restart);
-    [$('#stPrev'), $('#stNext'), $('#stDots')].forEach(function (b) { b.addEventListener('click', restart); });
+    [box, $('#stPrev'), $('#stNext'), $('#stDots')].forEach(function (b) { b.addEventListener('pointerdown', restart); });
+    box.addEventListener('keydown', restart);
   }
 
   /* ---------- reception, location, closing ---------- */
