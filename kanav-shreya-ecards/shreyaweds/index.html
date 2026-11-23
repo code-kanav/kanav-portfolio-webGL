@@ -1824,7 +1824,7 @@ var PHOTOS=[
   function autoplayStory() {
     if (!('IntersectionObserver' in window)) return;
     if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var EVERY = 3000, timer = 0, box = cfStory.box;   /* 1s glide (.cf.auto), then each photo holds still for 2s */
+    var EVERY = 2500, timer = 0, box = cfStory.box;   /* 1s glide (.cf.auto), then each photo holds still for 1.5s */
     function advance() {
       if (cfStory.drag || document.hidden) return;
       var t = Math.round(cfStory.pos) + 1, n = cfStory.n;
