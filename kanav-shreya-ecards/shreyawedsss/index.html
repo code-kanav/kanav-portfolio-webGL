@@ -1353,12 +1353,12 @@ var PHOTOS=[
   var EVENTS = [
     { n: 'Mata Ki Chowki', d: 'Tuesday, 23 February 2027', t: '5:30 PM – 7:30 PM', p: HOME, m: MAPS_HOME, dc: 'Traditional, in red or bright festive colours', sw: ['#b3161f', '#e2b54a'], th: 't-red', ic: 'diya', glow: '#c9463c' },
     { n: 'Shagun', d: 'Thursday, 25 February 2027', t: '10:30 AM', p: HOME, m: MAPS_HOME, dc: 'Traditional, in pastels', sw: ['#f6bfa4', '#fff8ea'], th: 't-peach', ic: 'gift', glow: '#f3b79c' },
-    { n: 'Sufi Night / Cocktail', d: 'Thursday, 25 February 2027', t: '7:30 PM', p: 'By the Woods, Amantran Farms', m: 'https://maps.app.goo.gl/GUteteoak5C3TTMD9', dc: 'Girls: Sharara / Gharara\nBoys: Indo-Western', sw: ['#14244f', '#e2b54a'], th: 't-night', ic: 'moon', glow: '#3c4c94' },
-    { n: 'Haldi', d: 'Friday, 26 February 2027', t: '11:00 AM', p: 'Radisson Blu (Pool Side)', m: 'https://maps.app.goo.gl/YrNxC6c4HCh2knb2A', dc: 'Wear yellow or pink, light and comfortable', sw: ['#ffd23f', '#f48fb1'], th: 't-yellow', ic: 'flower', glow: '#ffd23f' },
-    { n: 'Mehendi & Sangeet', d: 'Friday, 26 February 2027', t: '7:30 PM', p: 'Anutham', m: 'https://maps.app.goo.gl/N6wTnJr6jmVBjGLMA', dc: 'Shimmery and glittery', sw: ['#e2b54a', '#cfd2d9', '#e8a49c'], th: 't-emerald', ic: 'note', shim: true, glow: '#2c7a66' },
+    { n: 'Sufi Night / Cocktail', d: 'Thursday, 25 February 2027', t: '7:30 PM', p: 'By the Woods, Amantran Farms', ph: 'venue-sufi.jpg', m: 'https://maps.app.goo.gl/GUteteoak5C3TTMD9', dc: 'Girls: Sharara / Gharara\nBoys: Indo-Western', sw: ['#14244f', '#e2b54a'], th: 't-night', ic: 'moon', glow: '#3c4c94' },
+    { n: 'Haldi', d: 'Friday, 26 February 2027', t: '11:00 AM', p: 'Radisson Blu (Pool Side)', ph: 'venue-haldi.jpg', m: 'https://maps.app.goo.gl/YrNxC6c4HCh2knb2A', dc: 'Wear yellow or pink, light and comfortable', sw: ['#ffd23f', '#f48fb1'], th: 't-yellow', ic: 'flower', glow: '#ffd23f' },
+    { n: 'Mehendi & Sangeet', d: 'Friday, 26 February 2027', t: '7:30 PM', p: 'Anutham', ph: 'venue-mehendi.jpg', m: 'https://maps.app.goo.gl/N6wTnJr6jmVBjGLMA', dc: 'Shimmery and glittery', sw: ['#e2b54a', '#cfd2d9', '#e8a49c'], th: 't-emerald', ic: 'note', shim: true, glow: '#2c7a66' },
     { n: 'Saant', d: 'Saturday, 27 February 2027', t: '10:00 AM', p: HOME, m: MAPS_HOME, dc: 'Simple traditional', sw: ['#f58a07'], th: 't-marigold', ic: 'kalash', glow: '#f79a1c' },
     { n: 'Sehra Bandi', d: 'Saturday, 27 February 2027', t: '5:00 PM', p: HOME, m: MAPS_HOME, dc: 'Traditional festive', sw: ['#fbf1d8', '#d9b662'], th: 't-cream', ic: 'turban', glow: '#e6cf8e' },
-    { n: 'Baraat & Reception', d: 'Saturday, 27 February 2027', t: '7:30 PM · Pheras at 9:45 PM', p: 'Royal Retreat, Hari Niwas, Jammu', m: MAPS_VENUE, dc: 'Grand festive Indian wear', sw: ['#a81f68', '#e2b54a'], th: 't-rani', ic: 'fire', glow: '#c2417f' }
+    { n: 'Baraat & Reception', d: 'Saturday, 27 February 2027', t: '7:30 PM · Pheras at 9:45 PM', p: 'Royal Retreat, Hari Niwas, Jammu', ph: 'venue-reception.jpg', m: MAPS_VENUE, dc: 'Grand festive Indian wear', sw: ['#a81f68', '#e2b54a'], th: 't-rani', ic: 'fire', glow: '#c2417f' }
   ];
   /* e-card versions: the same card with a shorter list of functions. null means all eight. */
   var CARD_EVENTS = ["Mata Ki Chowki", "Mehendi & Sangeet", "Saant", "Sehra Bandi", "Baraat & Reception"];
@@ -1416,7 +1416,7 @@ var PHOTOS=[
     add('spray2', function () { return spraySprite(9, Math.round(150 * DPR)); });
     [150, 116, 84].forEach(function (len, i) { add('str' + i, function () { return stringSprite(Math.round(26 * DPR), Math.round(len * DPR), 5 + i); }); });
     ['blush', 'wine', 'ivory', 'rose'].forEach(function (p, i) { add('pt' + i, function () { return petalSprite(p, Math.round(26 * DPR), i + 1); }); });
-    EVENTS.forEach(function (ev) { var k = ev.i; add('sc' + k, function () { return sceneSprite(k, 480, 1); }, true); });
+    EVENTS.forEach(function (ev) { if (ev.ph) return; var k = ev.i; add('sc' + k, function () { return sceneSprite(k, 480, 1); }, true); });
     /* paint in short slices so the loader keeps spinning; PNG encoding runs alongside, off the main thread where the browser allows */
     return new Promise(function (resolve, reject) {
       var pending = [], i = 0;
@@ -1771,10 +1771,10 @@ var PHOTOS=[
     var words = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight'];
     $('#evLead').textContent = words[EVENTS.length] + ' celebrations over five days. Swipe through them.';
     EVENTS.forEach(function (ev) {
-      var i = ev.i, it = el('article', 'cf-item');
+      var i = ev.i, it = el('article', 'cf-item'), art = ev.ph || SPR['sc' + i];   /* venue photo when there is one, else the painted scene */
       it.setAttribute('aria-label', ev.n);
       it.innerHTML = '<div class="cf-card ev ' + ev.th + '">' +
-        '<div class="ev-scene">' + (SPR['sc' + i] ? '<img alt="" draggable="false" src="' + SPR['sc' + i] + '">' : '') + '</div>' +
+        '<div class="ev-scene">' + (art ? '<img alt="" draggable="false" decoding="async" src="' + art + '">' : '') + '</div>' +
         '<div class="ev-badge" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24">' + ICONS[ev.ic] + '</svg></div>' +
         '<div class="ev-body"><h3 class="ev-name">' + esc(ev.n) + '</h3><p class="ev-day">' + ev.d + '</p>' +
         '<ul class="ev-meta"><li>' + I_CLOCK + '<span>' + ev.t + '</span></li><li>' + I_PIN + '<span>' + esc(ev.p) + '</span></li></ul>' +
@@ -1974,7 +1974,7 @@ var PHOTOS=[
     ]).catch(function () {}), 5000);
   }
   function decodeAll() {
-    return timeout(Promise.all($$('#stTrack img').map(function (im) {
+    return timeout(Promise.all($$('#stTrack img, #evTrack .ev-scene img').map(function (im) {
       if (im.decode) return im.decode().catch(function () {});
       return new Promise(function (r) { if (im.complete) r(); else { im.onload = im.onerror = r; } });
     })), 8000);
